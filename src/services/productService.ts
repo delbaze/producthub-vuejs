@@ -1,3 +1,4 @@
+import type { Category } from "@/types/Category";
 import type { Product } from "@/types/Product";
 
 const BASE_URL = "https://api.escuelajs.co/api/v1";
@@ -21,5 +22,10 @@ export async function fetchProductsFilter(title: string): Promise<Product[]> {
 
 
 //? prévoir une méthode fetchCategories() pour récupérer la liste des catégories depuis : https://api.escuelajs.co/api/v1/categories
+export async function fetchCategories(): Promise<Category[]> {
+  const response = await fetch(`${BASE_URL}/categories`)
+  if (!response.ok) throw new Error('Impossible de récupérer les catégories')
+  return response.json()
+}
 
 //? après, prévoir une méthode de création de produit (en POST)
