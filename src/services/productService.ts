@@ -1,5 +1,6 @@
 import type { Category } from "@/types/Category";
 import type { Product } from "@/types/Product";
+import type { ProductFormData } from "@/types/ProductForm";
 
 const BASE_URL = "https://api.escuelajs.co/api/v1";
 
@@ -28,4 +29,16 @@ export async function fetchCategories(): Promise<Category[]> {
   return response.json()
 }
 
+
 //? après, prévoir une méthode de création de produit (en POST)
+export async function createProduct(data: ProductFormData): Promise<Product> {
+  const response = await fetch(`${BASE_URL}/products`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  if (!response.ok) {
+    throw new Error('Impossible de créer le produit')
+  }
+  return response.json()
+}
