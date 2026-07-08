@@ -6,19 +6,29 @@ import { fetchProducts } from '@/services/productService';
 
 
 const products = ref<Product[]>([]);
+const isLoading = ref(true)
 
 onMounted(async () => {
-  products.value = await fetchProducts();
-})
+  try {
+    products.value = await fetchProducts();
+  } catch (err) {
 
+  } finally {
+    setTimeout(() => {
+      isLoading.value = false;
+    }, 800) // simulation d'un temps de récupération
+  }
+})
 
 </script>
 
-
 <template>
-  <div class="product-grid">
-    <ProductCard v-for="product in products" :key="product.id" :product="product" />
-  </div>
+  <main>
+    <p v-if="isLoading">Chargement des produits ...</p>
+    <div v-else class="product-grid">
+      <ProductCard v-for="product in products" :key="product.id" :product="product" />
+    </div>
+  </main>
 </template>
 
 <style scoped>
