@@ -1,35 +1,30 @@
 <script setup lang="ts">
 import ProductCard from '@/components/ProductCard.vue';
 import type { Product } from '@/types/Product';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { fetchProducts } from '@/services/productService';
 
 
+const products = ref<Product[]>([]);
 
-const testProduct: Product = {
-  id: 1,
-  title: 'Produit de test',
-  price: 29,
-  description: 'Juste pour vérifier que ProductCard fonctionne',
-  images: ['https://placehold.co/300'],
-  category: { id: 1, name: 'Test' }
-}
-let toto = ref("test");
+onMounted(async () => {
+  products.value = await fetchProducts();
+})
 
-
-function coucou(productId: number) {
-  console.log(`coucou depuis le produit id : ${productId}`);
-  console.log("toto value", toto.value);
-  toto.value = "coucou";
-}
-
-function deleteProduct(productId: number) {
-  console.log(`je voudrais supprimé le produit id : ${productId}`)
-}
 
 </script>
 
+
 <template>
-  <ProductCard :product="testProduct" @say-coucou="coucou" @delete-prod="deleteProduct" />
-  <p v-once>{{ toto.toUpperCase() }}</p>
-  <p>{{ toto.toUpperCase() }}</p>
+  <div class="product-grid">
+    <ProductCard v-for="product in products" :key="product.id" :product="product" />
+  </div>
 </template>
+
+<style scoped>
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+</style>

@@ -1,45 +1,55 @@
 <script setup lang="ts">
 import type { Product } from '@/types/Product';
-import { ref } from 'vue';
-// const product: Product = { title: "toto" }
-defineProps<{ product: Product }>()
-const emit = defineEmits<{ 'say-coucou': [productId: number], 'delete-prod': [productId: number] }>()
-const isLoading = ref(false);
-// const toto = "test";
+import LikeButton from '@/components/LikeButton.vue'
 
-// const state = ref({
-//     products: [] as Product[],
-//     isLoading: true,
-//     searchQuery: ''
-// })
 
-const demo = ref<Product[]>([{
-    id: 1,
-    title: 'Produit de test 0',
-    price: 29,
-    description: 'Juste pour vérifier que ProductCard fonctionne',
-    images: ['https://placehold.co/300'],
-    category: { id: 1, name: 'Test' }
-},
-{
-    id: 2,
-    title: 'Produit de test 1',
-    price: 29,
-    description: 'Juste pour vérifier que ProductCard fonctionne',
-    images: ['https://placehold.co/300'],
-    category: { id: 1, name: 'Test' }
-}])
+const props = defineProps<{ product: Product }>()
+
+function handleLikeChanged(total: number): void {
+    console.log(`${props.product.title} - nouveau total : ${total}`)
+}
+
 </script>
 
-<template>
-    <h1>{{ product.title }}</h1>
-    <h2 v-if="isLoading">Chargement en cours</h2>
-    <!-- <h2 v-else-if="isLoading">Chargement en cours</h2> -->
 
-    <ul>
-        <!-- <li v-for="(p, index) in demo" :key="index">{{ p.title }}</li> -->
-        <li v-for="p in demo" :key="p.title">{{ p.title }}</li>
-    </ul>
-    <button @click="emit('say-coucou', product.id)">Dire coucou</button>
-    <button @click="emit('delete-prod', product.id)">Supprimer le produit</button>
+<template>
+    <article class="product-card">
+        <img :src="product.images[0]" :alt="product.title" />
+        <h3>{{ product.title }}</h3>
+        <p class="price">{{ product.price }} €</p>
+        <span v-if="product.stock === 0" class="badge">Rupture de stock</span>
+        <LikeButton :productTitle="product.title" @like-changed="handleLikeChanged" />
+    </article>
 </template>
+
+
+<style scoped>
+.product-card {
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.product-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.out-of-stock {
+    opacity: 0.5;
+}
+
+.badge {
+    background: #d33;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+</style>

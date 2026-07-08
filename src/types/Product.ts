@@ -7,5 +7,6 @@ export interface Product {
     category: {
         id: number
         name: string
-    }
+    },
+    stock: number
 }
