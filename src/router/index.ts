@@ -7,6 +7,8 @@ import ProductListView from "@/components/ProductListView.vue";
 import ProductDetailView from "@/components/ProductDetailView.vue";
 import ProductFormView from "@/components/ProductFormView.vue";
 import ProductDeleteView from "@/components/ProductDeleteView.vue";
+import RegisterView from "@/components/RegisterView.vue";
+import LoginView from "@/components/LoginView.vue";
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -41,6 +43,8 @@ export const routes: RouteRecordRaw[] = [
     component: ProductDeleteView,
     props: true,
   },
+  { path: "/register", name: "register", component: RegisterView },
+  { path: "/login", name: "login", component: LoginView},
 ];
 
 const router = createRouter({
