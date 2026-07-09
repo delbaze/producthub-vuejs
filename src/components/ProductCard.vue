@@ -2,7 +2,6 @@
 import type { Product } from '@/types/Product';
 import LikeButton from '@/components/LikeButton.vue'
 // import { useRouter } from 'vue-router';
-
 // const router = useRouter()
 
 const props = defineProps<{ product: Product }>()
@@ -24,7 +23,7 @@ function handleLikeChanged(total: number): void {
         <p class="price">{{ product.price }} €</p>
         <span v-if="product.stock === 0" class="badge">Rupture de stock</span>
         <LikeButton :productTitle="product.title" @like-changed="handleLikeChanged" />
-        <router-link :to="{ name: 'product-view', params: { id: product.id } }">Voir le détail</router-link>
+        <router-link  :to="{ name: 'product-view', params: { id: product.id } }">Voir le détail</router-link>
         <!-- <router-link :to="{ name: 'product-view', params: { id: product.id } }">Voir le détail</router-link> -->
         <!-- <button type="button" @click="handleClick">Test</button> -->
     </article>
