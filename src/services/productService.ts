@@ -42,3 +42,35 @@ export async function createProduct(data: ProductFormData): Promise<Product> {
   }
   return response.json()
 }
+
+//? récupérer un produit précis par son id, pour la vue détail et le pré-remplissage en édition
+export async function fetchProductById(id: string): Promise<Product> {
+  const response = await fetch(`${BASE_URL}/products/${id}`)
+  if (!response.ok) {
+    throw new Error('Produit introuvable')
+  }
+  return response.json()
+}
+
+//? modification d'un produit existant (en PUT)
+export async function updateProduct(id: string, data: ProductFormData): Promise<Product> {
+  const response = await fetch(`${BASE_URL}/products/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  if (!response.ok) {
+    throw new Error('Impossible de modifier le produit')
+  }
+  return response.json()
+}
+
+//? suppression d'un produit (en DELETE)
+export async function deleteProduct(id: string): Promise<void> {
+  const response = await fetch(`${BASE_URL}/products/${id}`, {
+    method: 'DELETE'
+  })
+  if (!response.ok) {
+    throw new Error('Impossible de supprimer le produit')
+  }
+}
