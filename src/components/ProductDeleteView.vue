@@ -2,10 +2,13 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Product } from '@/types/Product'
-import { fetchProductById, deleteProduct } from '@/services/productService'
+import { fetchProductById } from '@/services/productService'
+import { useProductStore } from '@/stores/products';
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
+
+const productStore = useProductStore();
 const product = ref<Product | null>(null)
 const isDeleting = ref(false)
 
@@ -15,7 +18,7 @@ onMounted(async () => {
 
 async function confirmDelete(): Promise<void> {
   isDeleting.value = true
-  await deleteProduct(props.id)
+  await productStore.removeProduct(props.id)
   router.push({ name: 'products' })
 }
 

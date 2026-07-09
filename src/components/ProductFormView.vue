@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { fetchCategories, createProduct, updateProduct, fetchProductById } from '@/services/productService'
+import { fetchCategories, fetchProductById } from '@/services/productService'
+import { useProductStore } from '@/stores/products'
 import type { Category } from '@/types/Category'
 import type { ProductFormData } from '@/types/ProductForm'
 import { onMounted, ref, computed, watch } from 'vue'
@@ -8,6 +9,7 @@ import { useRouter } from 'vue-router'
 const props = defineProps<{ id?: string }>()
 const router = useRouter()
 
+const productStore = useProductStore();
 const isEditMode = computed(() => props.id !== undefined)
 
 const categories = ref<Category[]>([])
@@ -63,11 +65,11 @@ async function handleSubmit(): Promise<void> {
 
     try {
         if (isEditMode.value && props.id) {
-            await updateProduct(props.id, form.value)
+            await productStore.editProduct(props.id, form.value)
             successMessage.value = 'Produit mis à jour avec succès'
             router.push({ name: 'product-view', params: { id: props.id } })
         } else {
-            const newProduct = await createProduct(form.value)
+            const newProduct = await productStore.addProduct(form.value)
             console.log('produit créé :', newProduct)
             successMessage.value = 'Produit créé avec succès'
             router.push({ name: 'products' })
