@@ -21,6 +21,7 @@ function handleLogout(): void {
         <router-link :to="{ name: 'product-create' }">Créer un produit</router-link> -->
         <template v-if="authStore.isAuthenticated">
             <span>Connecté : {{ authStore.user?.name }}</span>
+            <router-link :to="{ name: 'admin'}">Administration</router-link>
             <button @click="handleLogout">Se déconnecter</button>
         </template>
         <template v-else>

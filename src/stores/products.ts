@@ -17,6 +17,7 @@ export const useProductStore = defineStore("products", () => {
   const error = ref<string | null>(null);
   const searchQuery = ref("");
   const hasLoaded = ref(false);
+  const selectedCategoryId = ref<number | null>(null);
 
   let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -38,8 +39,15 @@ export const useProductStore = defineStore("products", () => {
     error.value = null;
     try {
       const query = searchQuery.value.trim();
-      products.value =
-        query === "" ? await fetchProducts() : await fetchProductsFilter(query);
+      const hasFilters = query !== "" || selectedCategoryId.value !== null;
+
+      products.value = hasFilters
+        ? await fetchProductsFilter({
+            title: query || undefined,
+            categoryId: selectedCategoryId.value ?? undefined,
+          })
+        : await fetchProducts();
+
       hasLoaded.value = true;
     } catch (err) {
       error.value = err instanceof Error ? err.message : "Erreur inconnue";
@@ -47,9 +55,24 @@ export const useProductStore = defineStore("products", () => {
       isLoading.value = false;
     }
   }
+  // async function handleSearch(): Promise<void> {
+  //   isLoading.value = true;
+  //   error.value = null;
+  //   try {
+  //     const query = searchQuery.value.trim();
+  //     products.value =
+  //       query === "" ? await fetchProducts() : await fetchProductsFilter(query);
+  //     hasLoaded.value = true;
+  //   } catch (err) {
+  //     error.value = err instanceof Error ? err.message : "Erreur inconnue";
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
 
   function resetSearch(): void {
     searchQuery.value = "";
+    selectedCategoryId.value = null;
   }
 
   async function addProduct(data: ProductFormData): Promise<Product> {
@@ -93,6 +116,7 @@ export const useProductStore = defineStore("products", () => {
     resetSearch,
     addProduct,
     editProduct,
-    removeProduct
+    removeProduct,
+    selectedCategoryId,
   };
 });

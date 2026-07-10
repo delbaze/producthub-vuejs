@@ -12,6 +12,8 @@ import RegisterView from "@/components/RegisterView.vue";
 import LoginView from "@/components/LoginView.vue";
 import { useAuthStore } from "@/stores/auth";
 import CategoryListView from "@/components/CategoryListView.vue";
+import AdminView from "@/components/AdminView.vue";
+import CategoryFormView from "@/components/CategoryFormView.vue";
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -53,10 +55,15 @@ export const routes: RouteRecordRaw[] = [
   { path: "/register", name: "register", component: RegisterView },
   { path: "/login", name: "login", component: LoginView },
   {
-    path: "/admin/categories",
-    name: "admin-categories",
-    component: CategoryListView,
-  },
+      path: '/admin',
+      name: 'admin',
+      component: AdminView,
+      children: [
+        { path: 'categories', name: 'admin-categories', component: CategoryListView },
+        { path: 'categories/nouveau', name: 'admin-category-create', component: CategoryFormView },
+        { path: 'categories/:id/modifier', name: 'admin-category-edit', component: CategoryFormView, props: true }
+      ]
+    }
 ];
 
 const router = createRouter({

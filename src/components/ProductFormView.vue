@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { fetchCategories, fetchProductById } from '@/services/productService'
+import {  fetchProductById } from '@/services/productService'
+import {  fetchCategories } from '@/services/categoryService'
 import { useProductStore } from '@/stores/products'
 import type { Category } from '@/types/Category'
 import type { ProductFormData } from '@/types/ProductForm'

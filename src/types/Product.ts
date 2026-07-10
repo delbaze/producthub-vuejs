@@ -10,3 +10,8 @@ export interface Product {
     },
     stock: number
 }
+
+export interface ProductFilters {
+  title?: string
+  categoryId?: number
+}
