@@ -5,12 +5,15 @@ import type { Product } from '@/types/Product'
 import { fetchProductById } from '@/services/productService'
 import { useProductStore } from '@/stores/products'
 import ConfirmModal from '@/components/ConfirmModal.vue'
+import Tabs from '@/components/Tabs.vue'
+import Tab from '@/components/Tab.vue'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
 const productStore = useProductStore()
 
 const product = ref<Product | null>(null)
+console.log('%c⧭', 'color: #00e600', product)
 
 const currentIndex = computed(() =>
   productStore.products.findIndex(p => p.id === Number(props.id))
@@ -62,16 +65,29 @@ function goToEdit(): void {
 
 <template>
   <div v-if="product">
-    <p>...</p>
-
     <button :disabled="!previousProduct" @click="goToPrevious">← Précédent</button>
-    <h1>{{ product.title }}</h1>
-    <p>{{ product.price }} €</p>
-    <p>{{ product.description }}</p>
     <button :disabled="!nextProduct" @click="goToNext">Suivant →</button>
+
+    <Tabs default-tab="infos">
+      <Tab id="infos" label="Informations" />
+      <Tab id="images" label="Images" />
+
+      <template #content="{ activeTab }">
+        <div v-if="activeTab === 'infos'">
+          <h1>{{ product.title }}</h1>
+          <p>{{ product.price }} €</p>
+          <p>{{ product.category?.name }}</p>
+          <p>{{ product.description }}</p>
+        </div>
+
+        <div v-else-if="activeTab === 'images'">
+          <img v-for="(image, i) in product.images" :key="i" :src="image" style="max-width: 200px" />
+        </div>
+      </template>
+    </Tabs>
+
     <div>
       <button @click="goToEdit">Modifier</button>
-      <!-- <button @click="goToDelete">Supprimer</button> -->
       <ConfirmModal>
         <template #trigger="{ open }">
           <button @click="open">Supprimer</button>
