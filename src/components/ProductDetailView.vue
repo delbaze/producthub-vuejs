@@ -64,6 +64,7 @@ function goToDelete(): void {
     <button :disabled="!previousProduct" @click="goToPrevious">← Précédent</button>
     <h1>{{ product.title }}</h1>
     <p>{{ product.price }} €</p>
+    <p>{{ product.description }}</p>
     <button :disabled="!nextProduct" @click="goToNext">Suivant →</button>
     <div>
       <button @click="goToEdit">Modifier</button>
