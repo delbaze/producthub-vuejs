@@ -61,10 +61,12 @@ function goToDelete(): void {
 
 <template>
   <div v-if="product">
+    <p>...</p>
+
     <button :disabled="!previousProduct" @click="goToPrevious">← Précédent</button>
     <h1>{{ product.title }}</h1>
     <p>{{ product.price }} €</p>
-    <p>{{ product.description }}</p>
+    <p v-html="product.description"></p>
     <button :disabled="!nextProduct" @click="goToNext">Suivant →</button>
     <div>
       <button @click="goToEdit">Modifier</button>
