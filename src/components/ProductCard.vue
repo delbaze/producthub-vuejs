@@ -10,9 +10,6 @@ function handleLikeChanged(total: number): void {
     console.log(`${props.product.title} - nouveau total : ${total}`)
 }
 
-// function handleClick () {
-//     router.push("/products/create")
-// }
 </script>
 
 
@@ -23,7 +20,7 @@ function handleLikeChanged(total: number): void {
         <p class="price">{{ product.price }} €</p>
         <span v-if="product.stock === 0" class="badge">Rupture de stock</span>
         <LikeButton :productTitle="product.title" @like-changed="handleLikeChanged" />
-        <router-link  :to="{ name: 'product-view', params: { id: product.id } }">Voir le détail</router-link>
+        <router-link :to="{ name: 'product-view', params: { id: product.id } }">Voir le détail</router-link>
         <!-- <router-link :to="{ name: 'product-view', params: { id: product.id } }">Voir le détail</router-link> -->
         <!-- <button type="button" @click="handleClick">Test</button> -->
     </article>
