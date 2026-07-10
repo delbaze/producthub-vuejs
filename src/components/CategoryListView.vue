@@ -32,22 +32,26 @@ async function handleDelete(id: number): Promise<void> {
         <button>+ Nouvelle catégorie</button>
       </router-link>
     </template>
-
-    <p v-if="categoryStore.isLoading">Chargement...</p>
-    <p v-else-if="categoryStore.error">{{ categoryStore.error }}</p>
-    <table v-else>
-      <thead>
-        <tr><th>Nom</th><th>Actions</th></tr>
-      </thead>
-      <tbody>
-        <tr v-for="category in categoryStore.categories" :key="category.id">
-          <td>{{ category.name }}</td>
-          <td>
-            <button @click="goToEdit(category.id)">Modifier</button>
-            <button @click="handleDelete(category.id)">Supprimer</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- <template #default> -->
+      <p v-if="categoryStore.isLoading">Chargement...</p>
+      <p v-else-if="categoryStore.error">{{ categoryStore.error }}</p>
+      <table v-else>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="category in categoryStore.categories" :key="category.id">
+            <td>{{ category.name }}</td>
+            <td>
+              <button @click="goToEdit(category.id)">Modifier</button>
+              <button @click="handleDelete(category.id)">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <!-- </template> -->
   </AdminLayout>
 </template>

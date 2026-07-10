@@ -2,13 +2,12 @@ import type { Category } from "@/types/Category";
 import type { CategoryFormData } from "@/types/CategoryForm";
 import { BASE_URL } from "./common";
 
+
 export async function fetchCategories(): Promise<Category[]> {
   const response = await fetch(`${BASE_URL}/categories`)
   if (!response.ok) throw new Error('Impossible de récupérer les catégories')
   return response.json()
 }
-
-
 
 export async function createCategory(
   data: CategoryFormData,

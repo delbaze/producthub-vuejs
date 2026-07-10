@@ -60,8 +60,8 @@ export const routes: RouteRecordRaw[] = [
       component: AdminView,
       children: [
         { path: 'categories', name: 'admin-categories', component: CategoryListView },
-        { path: 'categories/nouveau', name: 'admin-category-create', component: CategoryFormView },
-        { path: 'categories/:id/modifier', name: 'admin-category-edit', component: CategoryFormView, props: true }
+        { path: 'categories/new', name: 'admin-category-create', component: CategoryFormView },
+        { path: 'categories/edit/:id(\\d+)', name: 'admin-category-edit', component: CategoryFormView, props: true }
       ]
     }
 ];
