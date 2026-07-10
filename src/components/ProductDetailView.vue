@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import type { Product } from '@/types/Product'
 import { fetchProductById } from '@/services/productService'
 import { useProductStore } from '@/stores/products'
+import ConfirmModal from '@/components/ConfirmModal.vue'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -54,9 +55,9 @@ function goToEdit(): void {
   router.push({ name: 'product-edit', params: { id: props.id } })
 }
 
-function goToDelete(): void {
-  router.push({ name: 'product-delete', params: { id: props.id } })
-}
+// function goToDelete(): void {
+//   router.push({ name: 'product-delete', params: { id: props.id } })
+// }
 </script>
 
 <template>
@@ -66,11 +67,26 @@ function goToDelete(): void {
     <button :disabled="!previousProduct" @click="goToPrevious">← Précédent</button>
     <h1>{{ product.title }}</h1>
     <p>{{ product.price }} €</p>
-    <p v-html="product.description"></p>
+    <p>{{ product.description }}</p>
     <button :disabled="!nextProduct" @click="goToNext">Suivant →</button>
     <div>
       <button @click="goToEdit">Modifier</button>
-      <button @click="goToDelete">Supprimer</button>
+      <!-- <button @click="goToDelete">Supprimer</button> -->
+      <ConfirmModal>
+        <template #trigger="{ open }">
+          <button @click="open">Supprimer</button>
+        </template>
+        <template #content="{ close, confirm, isProcessing }">
+          <p>Voulez-vous vraiment supprimer "{{ product.title }}" ?</p>
+          <button :disabled="isProcessing" @click="confirm(async () => {
+            await productStore.removeProduct(props.id)
+            router.push({ name: 'products' })
+          })">
+            {{ isProcessing ? 'Suppression...' : 'Confirmer' }}
+          </button>
+          <button @click="close">Annuler</button>
+        </template>
+      </ConfirmModal>
     </div>
   </div>
 </template>

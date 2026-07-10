@@ -3,6 +3,8 @@ import { confirmModalKey } from '@/composables/useConfirmModalContext';
 import { provide, readonly, ref } from 'vue';
 
 const isOpen = ref(false);
+const isProcessing = ref(false)
+const errorModal = ref<string | null>(null);
 
 function open() {
     isOpen.value = true
@@ -12,14 +14,29 @@ function close() {
     isOpen.value = false
 }
 
-provide(confirmModalKey, { isOpen: readonly(isOpen), open, close })
+async function confirm(action: () => Promise<void>): Promise<void> {
+    isProcessing.value = true
+    try {
+        await action()
+        close()
+    } catch (err) {
+        console.error(err)
+        errorModal.value = "Il y a eu une erreur"
+    } finally {
+        isProcessing.value = false
+    }
+}
+
+
+provide(confirmModalKey, { isOpen: readonly(isOpen), isProcessing: readonly(isProcessing), open, close, confirm })
 </script>
 
 <template>
     <slot name="trigger" :open="open"></slot>
     <div v-if="isOpen" class="modal-overlay" @click.self="close">
         <div class="modal-content">
-            <slot name="content" :close="close"></slot>
+            <p>{{ errorModal }}</p>
+            <slot name="content" :close="close" :confirm="confirm" :is-processing="isProcessing"></slot>
         </div>
     </div>
 </template>

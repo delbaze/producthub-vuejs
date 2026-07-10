@@ -45,13 +45,13 @@ export const routes: RouteRecordRaw[] = [
     component: ProductFormView,
     props: true,
   },
-  {
-    path: "/products/delete/:id(\\d+)",
+  // {
+  //   path: "/products/delete/:id(\\d+)",
 
-    name: "product-delete",
-    component: ProductDeleteView,
-    props: true,
-  },
+  //   name: "product-delete",
+  //   component: ProductDeleteView,
+  //   props: true,
+  // },
   { path: "/register", name: "register", component: RegisterView },
   { path: "/login", name: "login", component: LoginView },
   {

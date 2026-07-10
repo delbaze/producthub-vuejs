@@ -5,7 +5,6 @@ import { useRouter } from 'vue-router'
 import { useCategoryStore } from '@/stores/categories'
 import AdminLayout from '@/components/AdminLayout.vue'
 import ConfirmModal from '@/components/ConfirmModal.vue'
-import { confirmModalKey } from '@/composables/useConfirmModalContext'
 
 const categoryStore = useCategoryStore()
 const router = useRouter()
@@ -18,11 +17,6 @@ onMounted(() => {
 
 function goToEdit(id: number): void {
   router.push({ name: 'admin-category-edit', params: { id } })
-}
-
-async function handleDelete(categoryId: number, close: () => void): Promise<void> {
-  await categoryStore.removeCategory(String(categoryId));
-  close();
 }
 
 // const injections = inject(confirmModalKey)
@@ -55,9 +49,12 @@ async function handleDelete(categoryId: number, close: () => void): Promise<void
               <template #trigger="{ open }">
                 <button @click="open">Supprimer</button>
               </template>
-              <template #content="{ close }">
+              <template #content="{ close, isProcessing, confirm }">
                 <p>Voulez vous vraiment supprimer "{{ category.name }}"</p>
-                <button @click="handleDelete(category.id, close)">Confirmer</button>
+                <button :disabled="isProcessing"
+                  @click="confirm(() => categoryStore.removeCategory(String(category.id)))">
+                  {{ isProcessing ? 'Suppression...' : 'Confirmer' }}
+                </button>
                 <button @click="close">Annuler</button>
               </template>
             </ConfirmModal>
