@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { routes } from '@/router';
 import { useAuthStore } from '@/stores/auth';
-import { useExempleStore } from '@/stores/exemple';
 import { computed } from 'vue';
 
 const navRoutes = computed(() => routes.filter(route => route.meta?.title))
 
-const exempleStore = useExempleStore();
 const authStore = useAuthStore()
 function handleLogout(): void {
     authStore.logout()

@@ -9,6 +9,7 @@ const route = useRoute()
 
 const email = ref('')
 const password = ref('')
+
 const error = ref<string | null>(null)
 
 async function handleSubmit(): Promise<void> {

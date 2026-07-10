@@ -45,5 +45,9 @@ async function handleSubmit(): Promise<void> {
       </label>
       <button type="submit">Créer mon compte</button>
     </form>
+     <p>
+      Déjà un compte? Connectez vous
+      <router-link :to="{ name: 'login' }">Se connecter</router-link>
+    </p>
   </div>
 </template>
