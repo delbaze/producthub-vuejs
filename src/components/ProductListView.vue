@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { useProductStore } from '@/stores/products'
 import ProductCard from '@/components/ProductCard.vue'
 import { useCategoryStore } from '@/stores/categories'
-
+// import { vFocus } from '@/directives/vFocus'
 const productStore = useProductStore()
 const categoryStore = useCategoryStore()
 
@@ -25,7 +25,7 @@ onMounted(() => {
     </option>
   </select>
   <div class="search-bar">
-    <input v-model="productStore.searchQuery" type="text" placeholder="Rechercher un produit..." />
+    <input v-focus v-model="productStore.searchQuery" type="text" placeholder="Rechercher un produit..." />
     <button @click="productStore.handleSearch">Rechercher</button>
     <button v-if="productStore.searchQuery" @click="productStore.resetSearch">Réinitialiser</button>
   </div>

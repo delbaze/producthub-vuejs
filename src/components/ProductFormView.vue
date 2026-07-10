@@ -100,7 +100,7 @@ function removeImageField(index: number): void {
         <form @submit.prevent="handleSubmit">
             <label>
                 Catégorie
-                <select v-model="form.categoryId">
+                <select v-model="form.categoryId" data-test="category-select">
                     <option v-for="category in categories" :key="category.id" :value="category.id">
                         {{ category.name }}
                     </option>
@@ -109,12 +109,12 @@ function removeImageField(index: number): void {
 
             <label>
                 Titre
-                <input v-model="form.title" />
+                <input v-model="form.title" data-test="title-input"/>
             </label>
 
             <label>
                 Prix
-                <input v-model.number="form.price" type="number" />
+                <input v-model.number="form.price" type="number" data-test="price-input"/>
             </label>
 
             <label>

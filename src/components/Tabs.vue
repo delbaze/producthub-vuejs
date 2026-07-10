@@ -7,7 +7,7 @@ const props = defineProps<{ defaultTab: string }>()
 
 const route = useRoute()
 const router = useRouter()
-const activeTab = ref((route.query.tab as string) ?? props.defaultTab)
+const activeTab = ref((route.query.tab as string) ?? props.defaultTab) // ?tab=
 
 
 function selectTab(tabId: string): void {
